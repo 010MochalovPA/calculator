@@ -83,9 +83,6 @@ const commands = {
       print.addInput(`let ${value}`);
       return;
     }
-
-
-    print.addInput(`let ${value}`);
   },
 
   fn(value){
