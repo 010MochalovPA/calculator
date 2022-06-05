@@ -10,7 +10,7 @@ const commands = {
 
     const identifier = new Identifier(value);
     const identifierValue = identifier.getValue();
-    
+
     if (identifier.isNumeric() || !identifier.isValid()) {
       print.addOutput(`Введите "var <идентификатор>"!`);
       print.addOutput(`Можно использовать буквы английского алфавита, цифры и символ подчеркивания. Идентификатор не может начинаться с цифры.`);
@@ -30,12 +30,33 @@ const commands = {
   },
 
   let(value) {
+
   },
 
   fn(value){
   },
 
   print(value){
+
+    const identifier = new Identifier(value);
+    const identifierValue = identifier.getValue();
+
+    if (identifier.isNumeric() || !identifier.isValid()) {
+      print.addOutput(`Введите "print <идентификатор>"!`);
+      print.addOutput(`Можно использовать буквы английского алфавита, цифры и символ подчеркивания. Идентификатор не может начинаться с цифры.`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+
+    if(!data.isUsed(identifierValue)){
+      print.addOutput(`"${identifierValue}" не существует!`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+
+    print.addOutput(data.print(identifierValue));
+    print.addInput(`print ${value}`);
+
   },
 
   printvars() {

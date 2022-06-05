@@ -34,6 +34,10 @@ class Data {
 
     return null;
   }
+
+  print(value){
+    return Number(this.getItem(value).getValue()).toFixed(2);
+  }
 }
 
 export default Data;
