@@ -5,7 +5,7 @@ class Function {
       return () => {
         const id1 = this.identifier1.getValue();
         const id2 = this.identifier2.getValue();
-        const oper =this.operator
+        const oper = this.operator
         if (this.cache[[id1, oper, id2]]) return this.cache[[id1, oper, id2]];
         return this.cache[[id1, oper, id2]] = fn();
       }
