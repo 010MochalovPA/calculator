@@ -18,7 +18,8 @@ class Identifier {
     return this.value;
   }
 
-  _invalidValues = ['var','let','fn','print','printvars','printfns', 'NaN', 'undefined', 'null', 'false' , 'true']
+  _invalidValues = ['var','let','fn','print','printvars','printfns', 'NaN', 'undefined', 'null', 'false' , 'true'];
+  
 }
 
 export default Identifier;
