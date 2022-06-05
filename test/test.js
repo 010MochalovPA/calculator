@@ -103,9 +103,9 @@ describe('Classes:',() => {
     });
 
   });
-  describe('class Func', () => {
+  describe('class Function', () => {
 
-    it('класс Func существует', () => {
+    it('класс Function существует', () => {
       expect(Func).to.exist;
       expect(Func).to.be.instanceOf(Function);
     });
@@ -113,18 +113,91 @@ describe('Classes:',() => {
     it('присутствуют методы', () => {
       const fn = new Func();
       expect(fn).to.respondTo('getValue');
+      expect(fn).to.respondTo('cached');
     });
 
     it('возвращает корректное значение', () => {
-      const variable1 = new Variable('x', 'NaN');
-      const variable2 = new Variable('y','-1');
-      const variable3 = new Variable('z','3');
-      const variable4 = new Variable('x','12.5');
+      
+      const id1 = new Numeric(10);
+      const id2 = new Numeric(2);
 
-      assert.strictEqual(variable1.getValue(),'NaN');
-      assert.strictEqual(variable2.getValue(),'-1');
-      assert.strictEqual(variable3.getValue(),'3');
-      assert.strictEqual(variable4.getValue(),'12.5');
+      const fn1 = new Func(true, 'fn1', id1, id2, '+');
+      const fn2 = new Func(true, 'fn2', id1, id2, '-');
+      const fn3 = new Func(true, 'fn3', id1, id2, '*');
+      const fn4 = new Func(true, 'fn4', id1, id2, '/');
+
+      assert.strictEqual(fn1.getValue(), 12);
+      assert.strictEqual(fn2.getValue(), 8);
+      assert.strictEqual(fn3.getValue(), 20);
+      assert.strictEqual(fn4.getValue(), 5);
+
+      const id4 = new Numeric(10);
+
+      const fn5 = new Func(false, 'fn5', id4);
+      assert.strictEqual(fn5.getValue(), 10);
+    });
+
+    it('возвращает корректное значение (рандомные тесты)', () => {
+      const id1 = new Numeric(Math.floor(Math.random() * 10));
+      const id2 = new Numeric(Math.floor(Math.random() * 10));
+      const fn1 = new Func(true, 'fn1', id1, id2, '+');
+      const fn2 = new Func(true, 'fn2', id1, id2, '-');
+      const fn3 = new Func(true, 'fn3', id1, id2, '*');
+      const fn4 = new Func(true, 'fn4', id1, id2, '/');
+
+      assert.strictEqual(fn1.getValue(), +id1.getValue() + id2.getValue());
+      assert.strictEqual(fn2.getValue(), +id1.getValue() - id2.getValue());
+      assert.strictEqual(fn3.getValue(), +id1.getValue() * id2.getValue());
+      assert.strictEqual(fn4.getValue(), +id1.getValue() / id2.getValue());
+    });
+
+    it('возвращает корректное значение (при аргументе класса Variable)', () => {
+      
+      const id1 = new Variable('var1', 10);
+      const fn1 = new Func(false, 'fn1', id1);
+      assert.strictEqual(fn1.getValue(), 10);
+      id1.value = 20;
+      assert.strictEqual(fn1.getValue(), 20);
+      id1.value = 12.542;
+      assert.strictEqual(fn1.getValue(), 12.542);
+
+    });
+
+    it('возвращает корректное значение (при аргументе класса Function)', () => {
+      
+      const id1 = new Variable('var1', 25);
+      const id2 = new Numeric(10);
+      const id3 = new Numeric(20);
+      const fn1 = new Func(true, 'fn1', id1, id2, '*');
+      const fn2 = new Func(true, 'fn1', fn1, id3, '/');
+      assert.strictEqual(fn1.getValue(), 250);
+      assert.strictEqual(fn2.getValue(), 12.5);
+      id2.value = 5;
+      assert.strictEqual(fn1.getValue(), 125);
+      assert.strictEqual(fn2.getValue(), 6.25);
+
+    });
+
+    it('вычисление последовательности Фибоначчи (до fib20) 5 раз', () => {
+      
+      const id1 = new Variable('v0', 0);
+      const id2 = new Variable('v1', 1);
+      
+      let functions = {};
+
+      functions[`fib0`] = new Func(false, 'fib0', id1);
+      functions[`fib1`] = new Func(false, 'fib1', id2);
+
+      for (let i = 2; i <= 20; i++){
+        functions[`fib${i}`] = new Func (true, `fib${i}`, functions[`fib${i-1}`], functions[`fib${i-2}`], '+');
+      }
+      
+      assert.strictEqual(functions[`fib20`].getValue(), 6765);
+      assert.strictEqual(functions[`fib20`].getValue(), 6765);
+      assert.strictEqual(functions[`fib20`].getValue(), 6765);
+      assert.strictEqual(functions[`fib20`].getValue(), 6765);
+      assert.strictEqual(functions[`fib20`].getValue(), 6765);
+
     });
 
   });
