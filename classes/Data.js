@@ -38,6 +38,26 @@ class Data {
   print(value){
     return Number(this.getItem(value).getValue()).toFixed(2);
   }
+
+  getVars(){
+    return this.variables.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    }).reduce((result, item) => {
+      return result += `${item.name}:${Number(item.value).toFixed(2)}\n`
+    },'');
+  }
+
+  getFns(){
+    return this.functions.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    }).reduce((result, item) => {
+      return result += `${item.name}:${Number(item.getValue()).toFixed(2)}\n`
+    },'');
+  }
 }
 
 export default Data;

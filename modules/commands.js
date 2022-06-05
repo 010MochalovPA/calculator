@@ -60,9 +60,13 @@ const commands = {
   },
 
   printvars() {
+    print.addOutput(data.getVars());
+    print.addInput(`printvars`);
   },
 
   printfns() {
+    print.addOutput(data.getFns());
+    print.addInput(`printfns`);
   },
 
   help() {
