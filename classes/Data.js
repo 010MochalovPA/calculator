@@ -1,5 +1,6 @@
 import Variable from './Variable.js';
 import Function from './Function.js';
+import Numeric from './Numeric.js';
 
 class Data {
   constructor(){
@@ -37,6 +38,15 @@ class Data {
       return v;
     });
     return;
+  }
+
+  createFn(fnName, identifier1, identifier2, operator){
+    identifier1 = this.isUsed(identifier1) ? this.getItem(identifier1) : new Numeric(identifier1);
+    
+    if (!identifier2) identifier2 = new Numeric(0);
+    if (identifier2) identifier2 = this.isUsed(identifier2) ? this.getItem(identifier2) : new Numeric(identifier2);
+
+    this.functions.push(new Function(fnName, identifier1, identifier2, operator));
   }
 
   isUsed(identifier){

@@ -86,7 +86,57 @@ const commands = {
   },
 
   fn(value){
+
+    const regexpFull = /^([a-zA-Z_]+?[a-zA-Z0-9_]*)=([-]?[0-9]+[.]?[0-9]*|[a-zA-Z_]+?[a-zA-Z0-9_]*)([+\-*\/])([-]?[0-9]+[.]?[0-9]*|[a-zA-Z_]+?[a-zA-Z0-9_]*)?$/;
+    const regexpShort = /^([a-zA-Z_]+?[a-zA-Z0-9_]*)=([a-zA-Z_]+?[a-zA-Z0-9_]*)?$/;
+
+    if (!regexpFull.test(value) && !regexpShort.test(value)) {
+      print.addOutput(`Введите "fn <идентификатор1>=<идентификатор2>" либо "fn <идентификатор1>=<идентификатор2><операция><идентификатор3>"!`);
+      print.addOutput(`Можно использовать буквы английского алфавита, цифры и символ подчеркивания. Идентификатор не может начинаться с цифры.`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+    
+    let [,variable, argument1, sign, argument2] = [...value.match(regexpFull)];
+
+    const identifier1 = new Identifier(variable);
+    const identifier2 = new Identifier(argument1);
+    const identifier3 = new Identifier(argument2);
+
+    const variableName = identifier1.getValue();
+    const firstArgumentValue = identifier2.getValue();
+    const secondArgumentValue = identifier3.getValue();
+
+    if (!identifier1.isValid() || !identifier2.isValid() || !identifier3.isValid()) {
+      print.addOutput(`Введите "fn <идентификатор1>=<идентификатор2>" либо "fn <идентификатор1>=<идентификатор2><операция><идентификатор3>"!`);
+      print.addOutput(`Можно использовать буквы английского алфавита, цифры и символ подчеркивания. Идентификатор не может начинаться с цифры.`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+
+    if(!identifier2.isNumeric() && !data.isUsed(firstArgumentValue)){
+      print.addOutput(`"${firstArgumentValue}" не существует!`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+
+    if(!identifier3.isNumeric() && !data.isUsed(secondArgumentValue)){
+      print.addOutput(`"${secondArgumentValue}" не существует!`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+
+    if(data.isUsed(variableName)){
+      print.addOutput(`"${variableName.getValue()}" уже существует!`);
+      print.addOutput(`-----------------`);
+      return;
+    }
+
+    data.createFn(variableName, firstArgumentValue, secondArgumentValue, sign);
+    // data.addFn(isFull, variableName, identifier1, operator, identifier2);
+    print.addInput(`fn ${value}`);
   },
+  
 
   print(value){
 
