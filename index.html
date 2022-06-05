@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/css/reset.css">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <title>Calculator</title>
+</head>
+<body>
+  <div class="wrapper">
+    <form class="command-form">
+      <label for="command" class="command-form__label">Command</label>
+      <div class="command-form__input">
+        <input id="command" class="command-line" type="text">
+        <button class="command-form__button" type="submit">Submit</button>
+      </div>
+    </form>
+    <div class="data">
+      <div class="data__input">
+        <label class="data__label" for="input">Input</label>
+        <textarea class="data__textarea" id="input" readonly></textarea>
+      </div>
+      <div class="data__output">
+        <label class="data__label" for="output">Output</label>
+        <textarea class="data__textarea" id="output" readonly></textarea>
+      </div>
+    </div>
+    
+    
+  </div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
