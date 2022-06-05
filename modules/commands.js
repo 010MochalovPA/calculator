@@ -90,14 +90,24 @@ const commands = {
     const regexpFull = /^([a-zA-Z_]+?[a-zA-Z0-9_]*)=([-]?[0-9]+[.]?[0-9]*|[a-zA-Z_]+?[a-zA-Z0-9_]*)([+\-*\/])([-]?[0-9]+[.]?[0-9]*|[a-zA-Z_]+?[a-zA-Z0-9_]*)?$/;
     const regexpShort = /^([a-zA-Z_]+?[a-zA-Z0-9_]*)=([a-zA-Z_]+?[a-zA-Z0-9_]*)?$/;
 
+    let variable, argument1, sign = "+", argument2 = '0';
+
     if (!regexpFull.test(value) && !regexpShort.test(value)) {
       print.addOutput(`Введите "fn <идентификатор1>=<идентификатор2>" либо "fn <идентификатор1>=<идентификатор2><операция><идентификатор3>"!`);
       print.addOutput(`Можно использовать буквы английского алфавита, цифры и символ подчеркивания. Идентификатор не может начинаться с цифры.`);
       print.addOutput(`-----------------`);
       return;
     }
+
     
-    let [,variable, argument1, sign, argument2] = [...value.match(regexpFull)];
+    
+    if (regexpFull.test(value)){
+      [,variable, argument1, sign, argument2] = [...value.match(regexpFull)];
+    }
+
+    if (regexpShort.test(value)){
+      [,variable, argument1] = [...value.match(regexpShort)];
+    }
 
     const identifier1 = new Identifier(variable);
     const identifier2 = new Identifier(argument1);

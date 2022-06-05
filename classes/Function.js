@@ -1,5 +1,5 @@
 class Function {
-  constructor(fnName, identifier1, identifier2 = 0, operator = '+'){
+  constructor(fnName, identifier1, identifier2, operator){
     this.name = fnName;
     this.identifier1 = identifier1;
     this.operator = operator;
