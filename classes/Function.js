@@ -1,13 +1,16 @@
 class Function {
   constructor(isFull, fnName, identifier1, identifier2, operator){
-    this.cache = {};
     this.cached = (fn) =>{
+      const cache = {};
       return () => {
-        const id1 = this.identifier1.getValue();
-        const id2 = this.identifier2.getValue();
-        const oper = this.operator
-        if (this.cache[[id1, oper, id2]]) return this.cache[[id1, oper, id2]];
-        return this.cache[[id1, oper, id2]] = fn();
+        const id1 = identifier1.getValue();
+        const id2 = identifier2.getValue();
+        const oper = operator;
+        if (!cache[[id1, oper, id2]]) {
+          let result = fn();
+          cache[[id1, oper, id2]] = result;
+        }
+        return cache[[id1, oper, id2]];
       }
     }
 
@@ -19,7 +22,6 @@ class Function {
     this.fn = () => {
       const firstArgument = identifier1.getValue();
       const secondArgument = identifier2.getValue();
-      
       if (operator === '+') return (+firstArgument + +secondArgument);
       if (operator === '-') return (+firstArgument - +secondArgument);
       if (operator === '*') return (+firstArgument * +secondArgument);
