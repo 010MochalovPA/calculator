@@ -1,4 +1,8 @@
 import Identifier from '../classes/Identifier.js';
+import Numeric from '../classes/Identifier.js';
+import Variable from '../classes/Variable.js';
+import Func from '../classes/Function.js'
+import Data from '../classes/Function.js'
 
 describe('Classes:',() => {
   describe('class Identifier', () => {
@@ -8,16 +12,11 @@ describe('Classes:',() => {
       expect(Identifier).to.be.instanceOf(Function);
     });
 
-    it('присутствуют нужные методы', () => {
+    it('присутствуют методы', () => {
       const instance = new Identifier();
       expect(instance).to.respondTo('isNumeric');
       expect(instance).to.respondTo('isValid');
       expect(instance).to.respondTo('getValue');
-    });
-
-    it('возвращает null если не переданы параметры при создании', () => {
-      const identifier = new Identifier();
-      assert.strictEqual(identifier.getValue(), null);
     });
 
     it('возвращает корректное значение', () => {
@@ -57,6 +56,75 @@ describe('Classes:',() => {
       assert.strictEqual(identifier7.isValid(), false);
       assert.strictEqual(identifier8.isValid(), false);
       assert.strictEqual(identifier9.isValid(), false);
+    });
+  });
+
+  describe('class Numeric', () => {
+
+    it('класс Numeric существует', () => {
+      expect(Numeric).to.exist;
+      expect(Numeric).to.be.instanceOf(Function);
+    });
+
+    it('присутствуют методы', () => {
+      const number = new Numeric();
+      expect(number).to.respondTo('getValue');
+    });
+
+    it('возвращает корректное значение', () => {
+      const number = new Numeric('-1');
+      assert.strictEqual(number.getValue(),'-1');
+    });
+  });
+
+  describe('class Variable', () => {
+
+    it('класс Variable существует', () => {
+      expect(Variable).to.exist;
+      expect(Variable).to.be.instanceOf(Function);
+    });
+
+    it('присутствуют методы', () => {
+      const variable = new Variable();
+      expect(variable).to.respondTo('getValue');
+    });
+
+
+    it('возвращает корректное значение', () => {
+      const variable1 = new Variable('x', 'NaN');
+      const variable2 = new Variable('y','-1');
+      const variable3 = new Variable('z','3');
+      const variable4 = new Variable('x','12.5');
+
+      assert.strictEqual(variable1.getValue(),'NaN');
+      assert.strictEqual(variable2.getValue(),'-1');
+      assert.strictEqual(variable3.getValue(),'3');
+      assert.strictEqual(variable4.getValue(),'12.5');
+    });
+
+  });
+  describe('class Func', () => {
+
+    it('класс Func существует', () => {
+      expect(Func).to.exist;
+      expect(Func).to.be.instanceOf(Function);
+    });
+
+    it('присутствуют методы', () => {
+      const fn = new Func();
+      expect(fn).to.respondTo('getValue');
+    });
+
+    it('возвращает корректное значение', () => {
+      const variable1 = new Variable('x', 'NaN');
+      const variable2 = new Variable('y','-1');
+      const variable3 = new Variable('z','3');
+      const variable4 = new Variable('x','12.5');
+
+      assert.strictEqual(variable1.getValue(),'NaN');
+      assert.strictEqual(variable2.getValue(),'-1');
+      assert.strictEqual(variable3.getValue(),'3');
+      assert.strictEqual(variable4.getValue(),'12.5');
     });
 
   });

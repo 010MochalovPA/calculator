@@ -1,6 +1,6 @@
 class Identifier {
   constructor(value) {
-    this.value = value || null;
+    this.value = value;
   }
 
   isNumeric(value) {
@@ -9,7 +9,6 @@ class Identifier {
 
   isValid() {
     if (this._invalidValue.includes(this.value)) return false;
-    if (!this.value) return false;
     if (/^[a-zA-Z_]+([a-zA-Z0-9_]+)?$/.test(this.value)) return true;
     if (/^[-]?[0-9]+[.]?[0-9]*$/.test(this.value)) return true;
     return false;
@@ -19,7 +18,7 @@ class Identifier {
     return this.value;
   }
 
-  _invalidValue = ['var','let','fn','print','printvars','printfns', 'NaN', 'undefined', 'null', 'false' , 'true']
+  _invalidValues = ['var','let','fn','print','printvars','printfns', 'NaN', 'undefined', 'null', 'false' , 'true']
 }
 
 export default Identifier;

@@ -78,7 +78,7 @@ const commands = {
       return;
     }
 
-    if (data.isUsed(variableValue) && exp.isNumeric()) {
+    if (data.isUsed(variableValue) && !exp.isNumeric()) {
       data.editValueLet(variableValue, expValue);
       print.addInput(`let ${value}`);
       return;
