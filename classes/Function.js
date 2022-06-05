@@ -3,10 +3,14 @@ class Function {
     this.cache = {};
     this.cached = (fn) =>{
       return () => {
-        if (this.cache[[this.identifier1.getValue(),this.operator,this.identifier2.getValue()]]) {
-          return this.cache[[this.identifier1.getValue(),this.operator,this.identifier2.getValue()]]
+        const id1 = this.identifier1.getValue();
+        const id2 = this.identifier2.getValue();
+        const oper =this.operator
+        if (this.cache[[id1, oper, id2]]) {
+          return this.cache[[id1, oper, id2]]
         }
-        return this.cache[[this.identifier1.getValue(),this.operator,this.identifier2.getValue()]] = fn();
+        console.log(this.cache);
+        return this.cache[[id1, oper, id2]] = fn();
       }
     }
 
