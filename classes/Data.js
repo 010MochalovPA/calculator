@@ -7,16 +7,36 @@ class Data {
     this.functions = [];
   }
 
-  createVar(value){
-    this.variables.push(new Variable(value, NaN));
+  createVar(variable){
+    this.variables.push(new Variable(variable, NaN));
+    return;
   }
 
-  createNumericLet(identifier, value){
-    
+  createNumericLet(variable, value){
+    this.variables.push(new Variable(variable, value));
+    return;
   }
 
-  createValueLet(identifier, value){
-    
+  editNumericLet(variable, value){
+    this.variables = this.variables.map(v => {
+      if (v.name === variable) v.value = value;
+      return v;
+    });
+    return;
+  }
+
+  createValueLet(variable, value){
+    value = this.getItem(value).getValue();
+    this.variables.push(new Variable(variable, value));
+  }
+
+  editValueLet(variable, value){
+    value = this.getItem(value).getValue();
+    this.variables = this.variables.map(v => {
+      if (v.name === variable) v.value = value;
+      return v;
+    });
+    return;
   }
 
   isUsed(identifier){
