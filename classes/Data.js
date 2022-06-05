@@ -40,13 +40,17 @@ class Data {
     return;
   }
 
-  createFn(fnName, identifier1, identifier2, operator){
+  createFullFn(fnName, identifier1, identifier2, operator){
     identifier1 = this.isUsed(identifier1) ? this.getItem(identifier1) : new Numeric(identifier1);
-    
-    if (!identifier2) identifier2 = new Numeric(0);
-    if (identifier2) identifier2 = this.isUsed(identifier2) ? this.getItem(identifier2) : new Numeric(identifier2);
+    identifier2 = this.isUsed(identifier2) ? this.getItem(identifier2) : new Numeric(identifier2);
 
-    this.functions.push(new Function(fnName, identifier1, identifier2, operator));
+    this.functions.push(new Function(true, fnName, identifier1, identifier2, operator));
+  }
+
+  createShortFn(fnName, identifier1){
+    identifier1 = this.getItem(identifier1);
+    
+    this.functions.push(new Function(false, fnName, identifier1));
   }
 
   isUsed(identifier){

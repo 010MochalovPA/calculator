@@ -142,9 +142,18 @@ const commands = {
       return;
     }
 
-    data.createFn(variableName, firstArgumentValue, secondArgumentValue, sign);
-    // data.addFn(isFull, variableName, identifier1, operator, identifier2);
-    print.addInput(`fn ${value}`);
+    const isFull = regexpFull.test(value);
+    if (isFull){
+      data.createFullFn(variableName, firstArgumentValue, secondArgumentValue, sign);
+      print.addInput(`fn ${value}`);
+      return;
+    }
+    
+    if (!isFull){
+      data.createShortFn(variableName, firstArgumentValue);
+      print.addInput(`fn ${value}`);
+      return;
+    }
   },
   
 
