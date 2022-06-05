@@ -7,12 +7,32 @@ class Data {
     this.functions = [];
   }
 
-  createNumericVar(value){
+  createVar(value){
     this.variables.push(new Variable(value, NaN));
-    return;
   }
-  createNumericVar(){
+
+  createNumericLet(identifier, value){
     
+  }
+
+  createValueLet(identifier, value){
+    
+  }
+
+  isUsed(identifier){
+    if (this.variables.find(variable => variable.name === identifier)) return true;
+    if (this.functions.find(func => func.name === identifier)) return true;
+    return false;
+  }
+
+  getItem(identifier){
+    const variable = this.variables.find(variable => variable.name === identifier);
+    const func = this.functions.find(func => func.name === identifier);
+
+    if (variable) return variable;
+    if (func) return func;
+
+    return null;
   }
 }
 

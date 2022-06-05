@@ -8,24 +8,23 @@ const commands = {
 
   var(value) {
 
-    let identifier = new Identifier(value);
-
+    const identifier = new Identifier(value);
+    const identifierValue = identifier.getValue();
+    
     if (identifier.isNumeric() || !identifier.isValid()) {
       print.addOutput(`Введите "var <идентификатор>"!`);
       print.addOutput(`Можно использовать буквы английского алфавита, цифры и символ подчеркивания. Идентификатор не может начинаться с цифры.`);
       print.addOutput(`-----------------`);
       return;
     }
-
-    if(data.isUsed(identifier)){
-      print.addOutput(`"${identifier.getValue()}" уже существует!`);
+    
+    if(data.isUsed(identifierValue)){
+      print.addOutput(`"${identifierValue}" уже существует!`);
       print.addOutput(`-----------------`);
       return;
     }
 
-    if (identifier.isNumeric()) data.createNumericVar(identifier.getValue());
-    if (!identifier.isNumeric()) data.createValueVar(identifier.getValue());
-    data.addVar(identifier);
+    data.createVar(identifierValue);
     print.addInput(`var ${value}`);
     
   },
