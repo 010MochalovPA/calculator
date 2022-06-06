@@ -178,7 +178,7 @@ describe('Classes:',() => {
 
     });
 
-    it('вычисление последовательности Фибоначчи (до fib20) 5 раз', () => {
+    it('вычисление последовательности Фибоначчи (fib25)', () => {
       
       const id1 = new Variable('v0', 0);
       const id2 = new Variable('v1', 1);
@@ -188,15 +188,11 @@ describe('Classes:',() => {
       functions[`fib0`] = new Func(false, 'fib0', id1);
       functions[`fib1`] = new Func(false, 'fib1', id2);
 
-      for (let i = 2; i <= 20; i++){
+      for (let i = 2; i <= 25; i++){
         functions[`fib${i}`] = new Func (true, `fib${i}`, functions[`fib${i-1}`], functions[`fib${i-2}`], '+');
       }
       
-      assert.strictEqual(functions[`fib20`].getValue(), 6765);
-      assert.strictEqual(functions[`fib20`].getValue(), 6765);
-      assert.strictEqual(functions[`fib20`].getValue(), 6765);
-      assert.strictEqual(functions[`fib20`].getValue(), 6765);
-      assert.strictEqual(functions[`fib20`].getValue(), 6765);
+      assert.strictEqual(functions[`fib25`].getValue(), 75025);
 
     });
 
