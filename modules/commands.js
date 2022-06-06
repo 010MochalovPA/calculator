@@ -137,7 +137,7 @@ const commands = {
     }
 
     if(data.isUsed(variableName)){
-      print.addOutput(`"${variableName.getValue()}" уже существует!`);
+      print.addOutput(`"${firstArgumentValue}" уже существует!`);
       print.addOutput(`-----------------`);
       return;
     }
