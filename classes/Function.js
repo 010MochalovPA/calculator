@@ -11,7 +11,6 @@ class Function {
           let result = fn();
           cache[key] = result;
         };
-        console.log(cache);
         return cache[key];
       }
     }
