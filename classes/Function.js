@@ -1,45 +1,40 @@
-class Function {
-  constructor(isFull, fnName, identifier1, identifier2, operator){
-    this.cached = (fn) =>{
-      const cache = {};
-      return () => {
-        const id1 = identifier1.getValue();
-        const id2 = identifier2.getValue();
-        const oper = operator;
-        if (!cache[[id1, oper, id2]]) {
-          let result = fn();
-          cache[[id1, oper, id2]] = result;
-        }
-        return cache[[id1, oper, id2]];
-      }
-    }
+import Numeric from "./Numeric.js";
 
+class Func {
+  constructor(fnName, identifier1, identifier2 = new Numeric('0'), operator = '+'){
     this.name = fnName;
-    this.identifier1 = identifier1;
+    this.arg1 = identifier1;
+    this.arg2 = identifier2;
     this.operator = operator;
-    this.identifier2 = identifier2;
+    this.result = this.count();
+    this.links = [];
+  }
 
-    this.fn = () => {
-      const firstArgument = identifier1.getValue();
-      const secondArgument = identifier2.getValue();
-      if (operator === '+') return (+firstArgument + +secondArgument);
-      if (operator === '-') return (+firstArgument - +secondArgument);
-      if (operator === '*') return (+firstArgument * +secondArgument);
-      if (operator === '/') return (+firstArgument / +secondArgument);
-    }
+  recount(){
+    this.result = this.count();
+    this.links.forEach(link => link.recount());
+  }
 
-    if (isFull){
-      this.getValue = this.cached(this.fn);
-      return;
-    }
+  getValue(){
+    return this.result;
+  }
 
-    if (!isFull){
-      this.getValue = () => identifier1 instanceof Function ? this.cached(identifier1.getValue()) : identifier1.getValue();
-      return;
-    }
-    
+  addLink(fn){
+    this.links.push(fn);
+  }
+
+  count() {
+    const arg1 = this.arg1.getValue();
+    const arg2 = this.arg2.getValue();
+    const oper = this.operator;
+
+    if (oper === "+") return +arg1 + +arg2;
+    if (oper === "-") return +arg1 - +arg2;
+    if (oper === "/") return +arg1 / +arg2;
+    if (oper === "*") return +arg1 * +arg2;
+  
   }
 }
 
 
-export default Function;
+export default Func;

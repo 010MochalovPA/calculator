@@ -26,6 +26,7 @@ function runCommand(event,command){
     print.addOutput(`-----------------`);
     return;
   }
+  
   if (directive === 'print') commands.print(value);
   if (directive === 'printvars') commands.printvars();
   if (directive === 'printfns') commands.printfns();
