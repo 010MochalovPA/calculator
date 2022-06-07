@@ -60,29 +60,18 @@ const commands = {
       return;
     }
     
-    if (!data.isUsed(variableValue) && exp.isNumeric()) {
-      data.createNumericLet(variableValue, expValue);
+    if (!data.isUsed(variableValue)) {
+      data.createVar(variableValue, expValue);
       print.addInput(`let ${value}`);
       return;
     }
 
-    if (!data.isUsed(variableValue) && !exp.isNumeric()) {
-      data.createValueLet(variableValue, expValue);
+    if (data.isUsed(variableValue)) {
+      data.editVar(variableValue, expValue);
       print.addInput(`let ${value}`);
       return;
     }
 
-    if (data.isUsed(variableValue) && exp.isNumeric()) {
-      data.editNumericLet(variableValue, expValue);
-      print.addInput(`let ${value}`);
-      return;
-    }
-
-    if (data.isUsed(variableValue) && !exp.isNumeric()) {
-      data.editValueLet(variableValue, expValue);
-      print.addInput(`let ${value}`);
-      return;
-    }
   },
 
   fn(value){
@@ -142,18 +131,9 @@ const commands = {
       return;
     }
 
-    const isFull = regexpFull.test(value);
-    if (isFull){
-      data.createFullFn(variableName, firstArgumentValue, secondArgumentValue, sign);
-      print.addInput(`fn ${value}`);
-      return;
-    }
-    
-    if (!isFull){
-      data.createShortFn(variableName, firstArgumentValue);
-      print.addInput(`fn ${value}`);
-      return;
-    }
+  data.createFn(variableName, firstArgumentValue, secondArgumentValue, sign);
+  print.addInput(`fn ${value}`);
+
   },
   
 

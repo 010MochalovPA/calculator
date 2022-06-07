@@ -1,5 +1,5 @@
 import Variable from './Variable.js';
-import Function from './Function.js';
+import Func from './Function.js';
 import Numeric from './Numeric.js';
 
 class Data {
@@ -8,49 +8,32 @@ class Data {
     this.functions = [];
   }
 
-  createVar(variable){
-    this.variables.push(new Variable(variable, NaN));
+  createVar(variable, value = NaN){
+    let newValue = this.getItem(value) ? this.getItem(value).getValue(): value;
+    this.variables.push(new Variable(variable, newValue));
     return;
   }
 
-  createNumericLet(variable, value){
-    this.variables.push(new Variable(variable, value));
-    return;
-  }
-
-  editNumericLet(variable, value){
+  editVar(variable, value){
+    let newValue = this.getItem(value) ? this.getItem(value).getValue(): value;
     this.variables = this.variables.map(v => {
-      if (v.name === variable) v.value = value;
+      if (v.name === variable) v.value = newValue;
       return v;
     });
-    return;
+    const item = this.getItem(variable);
+    item.recountLinks();
   }
 
-  createValueLet(variable, value){
-    value = this.getItem(value).getValue();
-    this.variables.push(new Variable(variable, value));
-  }
+  createFn(fnName, identifier1, identifier2, operator){
+    const value1 = this.getItem(identifier1) ? this.getItem(identifier1) : new Numeric (identifier1);
+    const value2 = this.getItem(identifier2) ? this.getItem(identifier2) : new Numeric (identifier2);
 
-  editValueLet(variable, value){
-    value = this.getItem(value).getValue();
-    this.variables = this.variables.map(v => {
-      if (v.name === variable) v.value = value;
-      return v;
-    });
-    return;
-  }
+    let newFn = new Func(fnName, value1, value2, operator);
 
-  createFullFn(fnName, identifier1, identifier2, operator){
-    identifier1 = this.isUsed(identifier1) ? this.getItem(identifier1) : new Numeric(identifier1);
-    identifier2 = this.isUsed(identifier2) ? this.getItem(identifier2) : new Numeric(identifier2);
+    this.functions.push(newFn);
 
-    this.functions.push(new Function(true, fnName, identifier1, identifier2, operator));
-  }
-
-  createShortFn(fnName, identifier1){
-    identifier1 = this.getItem(identifier1);
-    
-    this.functions.push(new Function(false, fnName, identifier1));
+    if (!(value1 instanceof Numeric)) value1.addLink(newFn);
+    if (!(value2 instanceof Numeric)) value2.addLink(newFn);
   }
 
   isUsed(identifier){
@@ -79,7 +62,7 @@ class Data {
       if (a.name > b.name) return 1;
       return 0;
     }).reduce((result, item) => {
-      return result += `${item.name}:${Number(item.value).toFixed(2)}\n`
+      return result += `${item.name}:${Number(item.getValue()).toFixed(2)}\n`
     },'');
   }
 
