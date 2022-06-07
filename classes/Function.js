@@ -6,11 +6,13 @@ class Function {
         const id1 = identifier1.getValue();
         const id2 = identifier2.getValue();
         const oper = operator;
-        if (!cache[[id1, oper, id2]]) {
+        const key = [id1, oper, id2].join('');
+        if (!cache[key]) {
           let result = fn();
-          cache[[id1, oper, id2]] = result;
-        }
-        return cache[[id1, oper, id2]];
+          cache[key] = result;
+        };
+        console.log(cache);
+        return cache[key];
       }
     }
 
@@ -34,7 +36,13 @@ class Function {
     }
 
     if (!isFull){
-      this.getValue = () => identifier1 instanceof Function ? this.cached(identifier1.getValue()) : identifier1.getValue();
+      this.getValue = () => {
+        if (identifier1.getValue() instanceof Function) {
+          return this.cached(identifier1.getValue());
+        } else {
+          return identifier1.getValue();
+        } 
+      };
       return;
     }
     

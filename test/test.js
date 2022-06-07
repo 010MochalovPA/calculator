@@ -188,11 +188,11 @@ describe('Classes:',() => {
       functions[`fib0`] = new Func(false, 'fib0', id1);
       functions[`fib1`] = new Func(false, 'fib1', id2);
 
-      for (let i = 2; i <= 25; i++){
+      for (let i = 2; i <= 18; i++){
         functions[`fib${i}`] = new Func (true, `fib${i}`, functions[`fib${i-1}`], functions[`fib${i-2}`], '+');
       }
       
-      assert.strictEqual(functions[`fib25`].getValue(), 75025);
+      assert.strictEqual(functions[`fib18`].getValue(), 2584);
 
     });
 
